@@ -1,0 +1,15 @@
+.background-img {
+  background-image: url("../img/mitchell-luo-FWoq_ldWlNQ-unsplash.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+
+
+
