@@ -1,14 +1,30 @@
 "use strict";
 
 const express = require("express");
+const fetch = require("node-fetch");
+require("dotenv").config();
+
 const app = express();
-const port = 8080;
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static("./public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.static("public"));
 
-app.listen(port, () => {
-  console.log(`Server is running http://localhost:${port}`);
-  console.log("Press Ctrl+C to end this process.");
+app.get("/api/image", async (req, res) => {
+  try {
+    const response = await fetch(`https://api.unsplash.com/photos/random?client_id=${process.env.CLIENT_ID}`);
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("Error fetching from Unsplash:", error);
+    res.status(500).json({ error: "Failed to fetch image" });
+  }
 });
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+require("dotenv").config();
+const cors = require("cors");
+
+app.use(cors());
