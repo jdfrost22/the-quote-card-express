@@ -22,9 +22,6 @@ app.get("/api/image", async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Press Ctrl+C to stop the server.`);
 });
 
-require("dotenv").config();
-const cors = require("cors");
-
-app.use(cors());
