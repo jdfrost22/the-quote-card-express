@@ -18,10 +18,8 @@
 }
 
 .background-img {
-  background-image: url("../img/ahmad-odeh-JhqhGfX_Wd8-unsplash.jpg");
   background-size: cover;
   background-position: center;
-  filter: brightness(0.5);
   position: absolute;
   top: 0;
   left: 0;

@@ -5,19 +5,35 @@ const elements = {
   author: document.getElementById("author"),
 };
 
-async function getRandomImage() {
+
+/*async function getRandomImage() {
     const client_id = "YOUR_ACCESS_KEY";
     const endpoint = `https://api.unsplash.com/photos/random/?client_id=${client_id}`;
     try {
         const response = await fetch(endpoint);
-        const returnedData = await response.json()
-        console.log(returnedData)
+        const returnedData = await response.json();
+        const receivedPhotoUrl = returnedData.urls.regular;
+
+        const imgDiv = document.querySelector(".background-img");
+        imgDiv.style.backgroundImage = `url("${receivedPhotoUrl}")`;
     } catch (error) {
-        console.error(error)
+        console.error(error);
     }
-}
+}*/
+
+async function getRandomImage() {
+  try {
+    const response = await fetch("/api/image");
+    const data = await response.json();
+    const imgDiv = document.querySelector(".background-img");
+    imgDiv.style.backgroundImage = `url("${data.urls.regular}")`;
+  } catch (error) {
+    console.error("Failed to load background image:", error);
+  }
+} 
 
 getRandomImage();
+
 
 
 
