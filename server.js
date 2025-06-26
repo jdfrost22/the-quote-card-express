@@ -4,21 +4,38 @@ const express = require("express");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
+require("dotenv").config();
+const cors = require("cors");
 
-app.use(express.static("public"));
+const corsOptions = {
+    origin: `http://localhost:${PORT}`
+}
+app.use(cors(corsOptions));
 
-app.get("/api/image", async (req, res) => {
-  try {
-    const response = await fetch(
-      `https://api.unsplash.com/photos/random?client_id=${process.env.CLIENT_ID}`
-    );
-    const data = await response.json();
-    res.json({ urls: { regular: data.urls.regular } }); // Only send what's needed
-  } catch (error) {
-    console.error("Error fetching from Unsplash:", error);
-    res.status(500).json({ error: "Failed to fetch image" });
-  }
+app.use(express.static("./public"));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+async function getRandomImage() {
+    const endpoint = `https://api.unsplash.com/photos/random/?client_id=${process.env.CLIENT_ID}`;
+    try {
+        const response = await fetch(endpoint);
+        const returnedData = await response.json();
+        const receivedPhotoUrl = returnedData.urls.regular;
+
+        return receivedPhotoUrl;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+app.use("/api/v1/getRandomImage", async (request, response) => {
+    response.status(200).json({
+        status: 200,
+        data: await getRandomImage(),
+    });
 });
 
 app.listen(PORT, () => {
